@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -21,7 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //return NoOpPasswordEncoder.getInstance();
         //return new LdapShaPasswordEncoder();
         //return new StandardPasswordEncoder();
-        return new BCryptPasswordEncoder();
+        //return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Override
@@ -48,16 +49,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("spring")
-                .password("$2a$10$G6uL7poBJDjEpaItecNT/eOs7TqP97SH0OInR9vn4DgvluiU1CdBa") // {noop} is used to bypass password encoder.
+                .password("{bcrypt}$2a$10$wlXPfWnO0PcBxEsR4vPlxeK6mRdF1pTJR3XIa.xsP.hhM/Q3w9I5a") // {noop} is used to bypass password encoder.
                 .roles("ADMIN")
                 .and()
                 .withUser("user")
-                .password("$2a$10$G6uL7poBJDjEpaItecNT/eOs7TqP97SH0OInR9vn4DgvluiU1CdBa")
+                .password("{sha256}e3765dc5c16d794d179bd1c1949b5a275f61ac5d431c3de6a84cb9c7386fb75abd5696bc18a4d89b")
                 .roles("USER");
 
         auth.inMemoryAuthentication()
                 .withUser("scott")
-                .password("tiger")
+                .password("{ldap}{SSHA}GxAKAFpcfVqvi5Bu5IptlSMpi6Lwo9FMpEVeTw==")
                 .roles("CUSTOMER");
     }
 
