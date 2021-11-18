@@ -7,8 +7,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -20,7 +20,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     PasswordEncoder passwordEncoder() {
         //return NoOpPasswordEncoder.getInstance();
         //return new LdapShaPasswordEncoder();
-        return new StandardPasswordEncoder();
+        //return new StandardPasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
     @Override
@@ -47,11 +48,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("spring")
-                .password("4a3af8948d886dde11d6d7ec6619e265cafa55ed1c117742a977dc6915440be8fa1197501e82f52b") // {noop} is used to bypass password encoder.
+                .password("$2a$10$G6uL7poBJDjEpaItecNT/eOs7TqP97SH0OInR9vn4DgvluiU1CdBa") // {noop} is used to bypass password encoder.
                 .roles("ADMIN")
                 .and()
                 .withUser("user")
-                .password("4a3af8948d886dde11d6d7ec6619e265cafa55ed1c117742a977dc6915440be8fa1197501e82f52b")
+                .password("$2a$10$G6uL7poBJDjEpaItecNT/eOs7TqP97SH0OInR9vn4DgvluiU1CdBa")
                 .roles("USER");
 
         auth.inMemoryAuthentication()
