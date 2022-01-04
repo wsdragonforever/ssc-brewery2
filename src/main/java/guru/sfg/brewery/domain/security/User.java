@@ -20,7 +20,7 @@ public class User {
     private String username;
     private String password;
 
-    @Singular
+    @Singular // so that the builder provides function to set a single authority or set of authorities.
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_authority",
             joinColumns = {@JoinColumn(name = "USER_ID")},
