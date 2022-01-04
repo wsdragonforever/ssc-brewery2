@@ -54,6 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests(authorize -> {
                     authorize
+                            .antMatchers("/h2-console/**").permitAll() // do not use in production
                             .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
                             .antMatchers("/beers/find", "/beers*").permitAll()
                             .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
@@ -65,6 +66,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .and()
                 .httpBasic();
+
+        // h2 console config
+        // http://localhost:8080/h2-console and enter jdbc:h2:mem:bddf0570-9280-4b8c-9cbd-24299c855a97 from log. Default 'User Name' is 'sa'. Leave password blank.
+        http.headers().frameOptions().sameOrigin();
     }
 
     // same thing as using userDetailsService() like the method below.
