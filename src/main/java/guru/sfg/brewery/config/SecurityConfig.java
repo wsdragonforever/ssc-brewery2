@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
+
     // By providing a password encoder as a bean, it's overriding the default implementation of delegating password encoder.
     // it's telling Spring "use this password encoder!"
     @Bean
@@ -74,22 +75,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // same thing as using userDetailsService() like the method below.
     //
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("spring")
-                .password("{bcrypt}$2a$10$wlXPfWnO0PcBxEsR4vPlxeK6mRdF1pTJR3XIa.xsP.hhM/Q3w9I5a") // {noop} is used to bypass password encoder.
-                .roles("ADMIN")
-                .and()
-                .withUser("user")
-                .password("{sha256}e3765dc5c16d794d179bd1c1949b5a275f61ac5d431c3de6a84cb9c7386fb75abd5696bc18a4d89b")
-                .roles("USER");
-
-        auth.inMemoryAuthentication()
-                .withUser("scott")
-                .password("{bcrypt10}$2a$10$m58Jz/ZnSk5tLwAs2MqI4eeRmUX2tD4z.ggcRZ3qo3rrKgndfPZXO")
-                .roles("CUSTOMER");
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("spring")
+//                .password("{bcrypt}$2a$10$wlXPfWnO0PcBxEsR4vPlxeK6mRdF1pTJR3XIa.xsP.hhM/Q3w9I5a") // {noop} is used to bypass password encoder.
+//                .roles("ADMIN")
+//                .and()
+//                .withUser("user")
+//                .password("{sha256}e3765dc5c16d794d179bd1c1949b5a275f61ac5d431c3de6a84cb9c7386fb75abd5696bc18a4d89b")
+//                .roles("USER");
+//
+//        auth.inMemoryAuthentication()
+//                .withUser("scott")
+//                .password("{bcrypt10}$2a$10$m58Jz/ZnSk5tLwAs2MqI4eeRmUX2tD4z.ggcRZ3qo3rrKgndfPZXO")
+//                .roles("CUSTOMER");
+//    }
 
     //    @Override
 //    @Bean
