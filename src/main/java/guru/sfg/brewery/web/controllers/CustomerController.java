@@ -20,7 +20,6 @@ package guru.sfg.brewery.web.controllers;
 import guru.sfg.brewery.domain.Customer;
 import guru.sfg.brewery.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,7 +48,8 @@ public class CustomerController {
         return "customers/findCustomers";
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_CUSTOMER"})
+    // @Secured({"ROLE_ADMIN", "ROLE_CUSTOMER"}) // old way
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER')") // new way
     @GetMapping
     public String processFindFormReturnMany(Customer customer, BindingResult result, Model model){
         // find customers by name
