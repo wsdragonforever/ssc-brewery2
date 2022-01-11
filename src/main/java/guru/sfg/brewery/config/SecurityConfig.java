@@ -5,7 +5,6 @@ import guru.sfg.brewery.security.RestUrlAuthFilter;
 import guru.sfg.brewery.security.SfgPasswordEncoderFactories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -58,14 +57,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests(authorize -> {
                     authorize
-                            .antMatchers("/h2-console/**").permitAll() // do not use in production
-                            .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
-                            .antMatchers(HttpMethod.GET, "/api/v1/beer/**").hasAnyRole("ADMIN", "CUSTOMER", "USER")
+                            .antMatchers("/h2-console/**").permitAll() // do not use in production.
+                            .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll();  //use @PreAuthorize instead of antMatchers for larger applications
+                            //.antMatchers(HttpMethod.GET, "/api/v1/beer/**").hasAnyRole("ADMIN", "CUSTOMER", "USER")
                             //.mvcMatchers(HttpMethod.DELETE, "/api/v1/beer/**").hasRole("ADMIN")
-                            .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").hasAnyRole("ADMIN", "CUSTOMER", "USER") // spring mvcMatchers works the same way except '**'
-                            .mvcMatchers("/brewery/breweries").hasAnyRole("ADMIN", "CUSTOMER") // allow ROLE_ADMIN and ROLE_CUSTOMER
-                            .mvcMatchers(HttpMethod.GET, "/brewery/api/v1/breweries").hasAnyRole("ADMIN", "CUSTOMER")
-                            .mvcMatchers("/beers/find", "/beers/{bearId}").hasAnyRole("ADMIN", "CUSTOMER", "USER");
+                            //.mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").hasAnyRole("ADMIN", "CUSTOMER", "USER") // spring mvcMatchers works the same way except '**'
+                            //.mvcMatchers("/brewery/breweries").hasAnyRole("ADMIN", "CUSTOMER") // allow ROLE_ADMIN and ROLE_CUSTOMER
+                            //.mvcMatchers(HttpMethod.GET, "/brewery/api/v1/breweries").hasAnyRole("ADMIN", "CUSTOMER")
+                            //.mvcMatchers("/beers/find", "/beers/{bearId}").hasAnyRole("ADMIN", "CUSTOMER", "USER");
                 })
                 .authorizeRequests()
                 .anyRequest().authenticated()
