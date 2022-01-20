@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -24,6 +25,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+    private final PersistentTokenRepository persistentTokenRepository;
 
     // needed for use with Spring Data JPA SPeL
     @Bean
@@ -97,8 +99,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .httpBasic()
                 .and().csrf().ignoringAntMatchers("/h2-console/**", "/api/**")
-                .and().rememberMe().key("sfg-key").userDetailsService(userDetailsService);
-
+                .and() //.rememberMe().key("sfg-key").userDetailsService(userDetailsService);
+                .rememberMe().tokenRepository(persistentTokenRepository).userDetailsService(userDetailsService);
         // h2 console config
         // http://localhost:8080/h2-console and enter jdbc:h2:mem:bddf0570-9280-4b8c-9cbd-24299c855a97 from log. Default 'User Name' is 'sa'. Leave password blank.
         http.headers().frameOptions().sameOrigin();
